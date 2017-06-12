@@ -1,6 +1,7 @@
 const express = require('express')
 const _ = require('lodash')
 const {User} = require('../models/user')
+const {authenticate} = require('../middleware/authenticate')
 
 const router = express.Router()
 
@@ -17,5 +18,9 @@ router.post('/', (req,res) => {
     })
 })
 
+
+router.get('/me', authenticate, (req,res) => {
+    res.send(req.user)
+})
 
 module.exports = router
