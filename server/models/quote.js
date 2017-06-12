@@ -10,6 +10,9 @@ let Quote = mongoose.model('Quote', {
     type: {
         type: String,
         required: true
+    },
+    postAt: {
+        type: Number
     }
 })
 

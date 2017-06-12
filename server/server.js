@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const _ = require('lodash')
 const {ObjectID} = require('mongodb')
 
 const {mongoose} = require('./db/mongoose')
@@ -13,7 +14,8 @@ app.use(bodyParser.json())
 app.post('/quotes', (req,res) => {
     let quote = new Quote({
         quote: req.body.quote,
-        type: req.body.type
+        type: req.body.type,
+        postAt: new Date().getTime()
     })
 
     quote.save().then((doc) => {
@@ -61,6 +63,27 @@ app.delete('/quotes/:id', (req,res) => {
         return res.send({quote})
     }).catch((e) => {
         res.status(400).send()
+    })
+})
+
+app.patch('/quotes/:id', (req,res) => {
+    let id = req.params.id
+    let body = _.pick(req.body, ['quote', 'type'])
+
+    if(!ObjectID.isValid(id)) {
+        return res.status(404).send()
+    }
+
+    body.postAt = new Date().getTime()
+
+    Quote.findByIdAndUpdate(id, {$set: body}, {new: true}).then((quote) => {
+        if(!quote) {
+            return res.status(404).send()
+        }
+
+        res.send({quote})
+    }).catch((e) => {
+        return res.status(400).send()
     })
 })
 
