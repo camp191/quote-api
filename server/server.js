@@ -42,8 +42,25 @@ app.get('/quotes/:id', (req,res) => {
             return res.status(404).send()
         }
         return res.send({quote})
-    }, (e) => {
-        res.status(400).send(e)
+    }).catch((e) => {
+        res.status(400).send()
+    })
+})
+
+app.delete('/quotes/:id', (req,res) => {
+    let id = req.params.id
+
+    if(!ObjectID.isValid(id)) {
+        return res.status(404).send()
+    }
+
+    Quote.findByIdAndRemove(id).then((quote) => {
+        if(!quote) {
+            return res.status(404).send()
+        }
+        return res.send({quote})
+    }).catch((e) => {
+        res.status(400).send()
     })
 })
 
