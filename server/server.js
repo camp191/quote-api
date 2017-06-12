@@ -14,6 +14,7 @@ app.use(bodyParser.json())
 app.post('/quotes', (req,res) => {
     let quote = new Quote({
         quote: req.body.quote,
+        quoteBy: req.body.quoteBy,
         type: req.body.type,
         postAt: new Date().getTime()
     })
@@ -68,7 +69,7 @@ app.delete('/quotes/:id', (req,res) => {
 
 app.patch('/quotes/:id', (req,res) => {
     let id = req.params.id
-    let body = _.pick(req.body, ['quote', 'type'])
+    let body = _.pick(req.body, ['quote', 'quoteBy', 'type'])
 
     if(!ObjectID.isValid(id)) {
         return res.status(404).send()
