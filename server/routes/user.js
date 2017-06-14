@@ -5,7 +5,7 @@ const {authenticate} = require('../middleware/authenticate')
 
 const router = express.Router()
 
-router.post('/', (req,res) => {
+router.post('/signup', (req,res) => {
     let body = _.pick(req.body, ['email', 'password', 'name', 'sex'])
     let user = new User(body)
 
@@ -32,6 +32,14 @@ router.post('/login', (req,res) => {
         })
     }).catch((e) => {
         res.status(400).send(e)
+    })
+})
+
+router.delete('/logout', authenticate, (req,res) => {
+    req.user.removeToken(req.token).then(() => {
+        res.status(200).send()
+    }, () => {
+        res.status(400).send()
     })
 })
 

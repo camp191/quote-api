@@ -20,6 +20,10 @@ let Quote = mongoose.model('Quote', {
     },
     postAt: {
         type: Number
+    },
+    _creator: {
+        type: mongoose.Schema.Types.ObjectId,
+        require: true
     }
 })
 
