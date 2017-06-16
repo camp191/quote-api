@@ -9,7 +9,6 @@ let UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        minlength: 5,
         unique: true,
         validate: {
             isAsync: true,
@@ -39,8 +38,7 @@ let UserSchema = new mongoose.Schema({
         trim: true
     },
     sex: {
-        type: String,
-        required: true
+        type: String
     },
     description: {
         type: String,

@@ -6,7 +6,7 @@ const {authenticate} = require('../middleware/authenticate')
 const router = express.Router()
 
 router.post('/signup', (req,res) => {
-    let body = _.pick(req.body, ['email', 'password', 'name', 'sex'])
+    let body = _.pick(req.body, ['email', 'password', 'name'])
     let user = new User(body)
 
     user.save().then(() => {
