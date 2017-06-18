@@ -39,7 +39,8 @@ let UserSchema = new mongoose.Schema({
         trim: true
     },
     sex: {
-        type: String
+        type: String,
+        default: null
     },
     description: {
         type: String,
@@ -56,7 +57,7 @@ UserSchema.methods.toJSON = function() {
     let user = this
     let userObject = user.toObject()
 
-    return _.pick(userObject, ['_id', 'email', 'name', 'sex'])
+    return _.pick(userObject, ['_id', 'email', 'name', 'sex', 'description', 'image'])
 }
 
 UserSchema.methods.generateAuthToken = function() {
