@@ -1,5 +1,6 @@
 const express = require('express')
 const _ = require('lodash')
+const {ObjectID} = require('mongodb')
 const {User} = require('../models/user')
 const {authenticate} = require('../middleware/authenticate')
 
@@ -40,6 +41,25 @@ router.delete('/logout', authenticate, (req,res) => {
         res.status(200).send()
     }, () => {
         res.status(400).send()
+    })
+})
+
+router.patch('/:id', authenticate, (req,res) => {
+    let id = req.params.id
+    let body = _.pick(req.body, ['name', 'description', 'sex'])
+
+    if(!ObjectID.isValid(id)) {
+        return res.status(404).send()
+    }
+
+    User.findOneAndUpdate({_id: id}, {$set: body}, {new: true}).then((user) => {
+        if(!user) {
+            return res.status(404).send()
+        }
+
+        res.send({user})
+    }).catch((e) => {
+        return res.status(400).send()
     })
 })
 

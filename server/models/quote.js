@@ -15,7 +15,7 @@ let Quote = mongoose.model('Quote', {
         default: 'Anonymous'
     },
     type: {
-        type: String,
+        type: Number,
         required: true
     },
     postAt: {
