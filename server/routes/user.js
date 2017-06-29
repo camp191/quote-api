@@ -63,4 +63,23 @@ router.patch('/:id', authenticate, (req,res) => {
     })
 })
 
+router.patch('/image/:id', authenticate, (req,res) => {
+    let id = req.params.id
+    let body = _.pick(req.body, ['image'])
+
+    if(!ObjectID.isValid(id)) {
+        return res.status(404).send()
+    }
+
+    User.findOneAndUpdate({_id: id}, {$set: body}, {new: true}).then((user) => {
+        if(!user) {
+            return res.status(404).send()
+        }
+
+        res.send({user})
+    }).catch((e) => {
+        return res.status(400).send()
+    })
+})
+
 module.exports = router

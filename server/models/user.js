@@ -48,7 +48,7 @@ let UserSchema = new mongoose.Schema({
         trim: true
     },
     image: {
-        type: Buffer,
+        type: String,
         default: null
     }
 })
