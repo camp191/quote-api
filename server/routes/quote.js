@@ -33,6 +33,14 @@ router.get('/', authenticate, (req,res) => {
     })
 })
 
+router.get('/all', authenticate, (req,res) => {
+    Quote.find().then((quote) => {
+        res.send({quote})
+    }, (e) => {
+        res.status(400).send(e)
+    })
+})
+
 router.get('/:id', authenticate, (req,res) => {
     let id = req.params.id
     if(!ObjectID.isValid(id)) {

@@ -19,11 +19,6 @@ router.post('/signup', (req,res) => {
     })
 })
 
-
-router.get('/me', authenticate, (req,res) => {
-    res.send(req.user)
-})
-
 router.post('/login', (req,res) => {
     let body = _.pick(req.body, ['email', 'password'])
 
@@ -33,6 +28,26 @@ router.post('/login', (req,res) => {
         })
     }).catch((e) => {
         res.status(400).send(e)
+    })
+})
+
+router.get('/me', authenticate, (req,res) => {
+    res.send(req.user)
+})
+
+router.get('/:id', authenticate, (req,res) => {
+    let id = req.params.id
+    if(!ObjectID.isValid(id)) {
+        return res.status(404).send()
+    }
+
+    User.findOne({_id: id}).then((user) => {
+        if(!user) {
+            return res.status(404).send()
+        }
+        return res.send({user})
+    }).catch((e) => {
+        res.status(400).send()
     })
 })
 
