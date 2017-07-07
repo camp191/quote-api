@@ -10,7 +10,7 @@ let Quote = mongoose.model('Quote', {
     quoteBy: {
         type: String,
         required: true,
-        minlength: 3,
+        minlength: 1,
         trim: true,
         default: 'Anonymous'
     },
